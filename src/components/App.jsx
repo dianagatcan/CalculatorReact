@@ -18,11 +18,15 @@ export default function App(){
         }
     }
 
+    function clearState(){
+        setValue("")
+    }
+
     return (<div className="main">
     <Screen value={value} />
     <div className="wrapper">
      {(keys.map((buttonValue, index) => <Button key={index} id={index} text={buttonValue} handleClick={() => {displayText(buttonValue)}} />))}
-     <button className="clear">Clear</button>
     </div>
+    <button className="clear" onClick={clearState}>Clear</button>
     </div>)
 }
