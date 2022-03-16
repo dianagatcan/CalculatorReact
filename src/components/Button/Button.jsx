@@ -4,5 +4,10 @@ import './styles.css';
 
 export default function Button(props){
 
-    return <button onClick={props.handleClick} className="button">{props.text}</button>
+    const greyButtons = val => {
+        return typeof val === "number" || val === "." || val === "=";
+
+    }
+
+    return <button onClick={props.handleClick} className={greyButtons(props.text) ? "button" : "orange"}>{props.text}</button>
 }
