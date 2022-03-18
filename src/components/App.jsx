@@ -24,26 +24,23 @@ export default function App(){
 
     
     function displayText(buttonValue){
-        //Dacă secondValue este ocupat și se apasă iar pe Operator, se face =
-        //Dacă nu, se schimbă Value
 
-        if(operator !=="" && typeof buttonValue === 'number' || buttonValue === '.'){
+        if(operator !=="" && secondValue==="" && buttonValue === 0 || buttonValue === '.'){
+            setSecondValue("")
+        } else if(operator !=="" && typeof buttonValue === 'number' || buttonValue === '.'){
             setSecondValue(prevValue => {return prevValue + buttonValue})
-        } else if(typeof buttonValue === 'number' || buttonValue === '.'){
+        } else if(value === "" && buttonValue === 0 || buttonValue === '.'){
+            setValue("")
+        }else if(typeof buttonValue === 'number' || buttonValue === '.'){
             setValue(prevValue => {return prevValue + buttonValue})
         }
-        //Dacă e operator, se schimbă Operator
         if(buttonValue === "+" || buttonValue === "-" || buttonValue === "*" || buttonValue === "/"){
             setOperator(buttonValue)
         }
-        //Dacă Operator este ocupat, se schimbă secondValue
-        
         if(secondValue !=="" && buttonValue === "+" || buttonValue === "-" || buttonValue === "*" || buttonValue === "/" ){
             setValue(math.evaluate(`${value}${operator}${secondValue}`))
             setSecondValue("")
         }
-
-        //Dacă e egal, se face evaluate
         if(buttonValue === "=" && value !== "" && secondValue !== ""){
             setValue(math.evaluate(`${value}${operator}${secondValue}`))
             setSecondValue("")
