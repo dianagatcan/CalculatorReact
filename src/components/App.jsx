@@ -39,24 +39,33 @@ export default function App(){
         //Dacă Operator este ocupat, se schimbă secondValue
         
         if(secondValue !=="" && buttonValue === "+" || buttonValue === "-" || buttonValue === "*" || buttonValue === "/" ){
-            console.log(math.evaluate(`${value}${operator}${secondValue}`))
+            setValue(math.evaluate(`${value}${operator}${secondValue}`))
+            setSecondValue("")
+        }
+
+        //Dacă e egal, se face evaluate
+        if(buttonValue === "=" && value !== "" && secondValue !== ""){
+            setValue(math.evaluate(`${value}${operator}${secondValue}`))
+            setSecondValue("")
+            setOperator("")
         }
 
     }
 
 
-    // parseInt(value), operator, parseInt(secondValue)
+  
 
-
-    // function clearState(){
-    //     setValue("")
-    // }
+    function clearState(){
+        setValue("")
+        setOperator("")
+        setSecondValue("")
+    }
 
     return (<div className="main">
     <Screen value={secondValue !=="" ? secondValue : value} />
     <div className="wrapper">
      {(keys.map((buttonValue, index) => <Button key={index} id={index} text={buttonValue} handleClick={() => {displayText(buttonValue)}} />))}
-     <button className="clear" >Clear</button>
+     <button className="clear" onClick={clearState}>Clear</button>
     </div>
     
     </div>)
