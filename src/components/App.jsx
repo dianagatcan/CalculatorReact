@@ -6,11 +6,12 @@ import * as math from 'mathjs';
 
 export default function App(){
 
-    const keys=[7,8,9, '*', 4, 5, 6, '/', 1, 2, 3, '+', '.', 0, '=', '-']
+    const keys=[7,8,9, '*', 4, 5, 6, '/', 1, 2, 3, '+', 'C', 0, '=',  '-']
 
     const [value, setValue] = useState('')
     const [operator, setOperator] = useState('')
     const [secondValue, setSecondValue] = useState('')
+
 
 
     // function displayText(buttonValue){
@@ -61,8 +62,8 @@ export default function App(){
     return (<div className="main">
     <Screen value={secondValue !=="" ? secondValue : value} />
     <div className="wrapper">
-     {(keys.map((buttonValue, index) => <Button key={index} id={index} text={buttonValue} handleClick={() => {displayText(buttonValue)}} />))}
-     <button className="clear" onClick={clearState}>Clear</button>
+     {(keys.map((buttonValue, index) => <Button key={index} id={index} text={buttonValue} handleClick={() => {displayText(buttonValue)}} clear={clearState} />))}
+
     </div>
     
     </div>)
