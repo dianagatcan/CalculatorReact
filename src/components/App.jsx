@@ -50,24 +50,45 @@ export default function App(){
     }
 
 
-    
+//--------------------------------------------------------------------------------------------------------------------------------------------    
 
+    function isOperatorPressed(string){
+        return ['+','-','*','/','.','='].some((value) => {
+            return value===string
+        })
+    }
 
+    function isOrangePressed(string){
+        return ['+','-','*','/'].some((value) => {
+            return value===string
+        })
+    }
+
+    function changeState(number){
+        if(!isOperator()){
+            setValue((prevValue) =>{return trimFirstZero(prevValue+number)})
+        }
+        else{
+            setSecondValue((prevValue) =>{return trimFirstZero(prevValue+number)})
+        }
+    }
 
     
     function displayText(buttonValue){
-        displayValue(buttonValue)
-        if(typeof buttonValue === "string" && buttonValue !== "."){
-            if(buttonValue === "="){
-                handleEqual()
+        if(isOperatorPressed(buttonValue)){
+            if(isOrangePressed(buttonValue)){
+                setOperator(buttonValue)
             }
-            else{
-                handleOperator(buttonValue)
+            if(buttonValue === '='){
+                
             }
-            
+            if(buttonValue === '.'){
+
+            }
         }
-        displaySecondValue(buttonValue)
-        
+        else{
+            changeState(buttonValue)
+        }
     }
 
 
