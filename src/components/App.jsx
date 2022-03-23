@@ -4,9 +4,9 @@ import Button from "./Button/Button";
 import * as math from 'mathjs';
 
 
-
 /**
- * after = if a number is pressed, initiate a new calcul
+ * 
+ * 
  * 
  * 
  */
@@ -18,6 +18,7 @@ export default function App(){
     const [value, setValue] = useState('0')
     const [operator, setOperator] = useState('')
     const [secondValue, setSecondValue] = useState('0')
+    const [result,setResult] = useState("")
 
     function isOperator(){
         return operator ? true : false;
@@ -45,8 +46,10 @@ export default function App(){
     }
 
     function handleEqual(){
-            setValue(math.evaluate(`${value}${operator}${secondValue}`).toString())
+            setResult(math.evaluate(`${value}${operator}${secondValue}`).toString())
+            setValue(0)
             setSecondValue("0")
+            setOperator("")
     }
 
 
@@ -76,21 +79,34 @@ export default function App(){
     
     function displayText(buttonValue){
         if(isOperatorPressed(buttonValue)){
+            if(result!==""){
+                setValue(result)
+                setResult("")
+            }
             if(isOrangePressed(buttonValue)){
                 setOperator(buttonValue)
             }
             if(buttonValue === '='){
-                
-            }
-            if(buttonValue === '.'){
-
+                handleEqual()
             }
         }
         else{
+            if(result!==""){setResult("")}
             changeState(buttonValue)
         }
     }
 
+
+    function decideDisplay(){
+        if(result!==""){
+            return result
+        }
+        else{
+            return secondValue !=="0" ? secondValue : value
+        }
+
+        
+    }
 
   
 
@@ -101,7 +117,7 @@ export default function App(){
     }
 
     return (<div className="main">
-    <Screen value={secondValue !=="0" ? secondValue : value} />
+    <Screen value={decideDisplay()} />
     <div className="wrapper">
      {(keys.map((buttonValue, index) => <Button key={index} id={index} text={buttonValue} handleClick={() => {displayText(buttonValue)}} />))}
      <button className="clear" onClick={clearState}>Clear</button>
