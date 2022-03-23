@@ -4,66 +4,99 @@ import Button from "./Button/Button";
 import * as math from 'mathjs';
 
 
+
+/**
+ * after = if a number is pressed, initiate a new calcul
+ * 
+ * 
+ */
+
 export default function App(){
 
     const keys=[7,8,9, '*', 4, 5, 6, '/', 1, 2, 3, '+', '.', 0, '=', '-']
 
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState('0')
     const [operator, setOperator] = useState('')
-    const [secondValue, setSecondValue] = useState('')
+    const [secondValue, setSecondValue] = useState('0')
+
+    function isOperator(){
+        return operator ? true : false;
+    }
+
+    function displayValue(buttonValue){
+            //we want to display first value only when no operator is selected
+        if(!isOperator() && (typeof buttonValue === "number" || buttonValue==='.')){
+            setValue(prevValue => {return trimFirstZero(prevValue + buttonValue)})
+        }
+    }
+
+    function handleOperator(buttonValue){
+        setOperator(buttonValue)
+        if(isOperator()){
+            handleEqual();
+        }
+    }
+    
+
+    function displaySecondValue(buttonValue){
+        if(isOperator() && (typeof buttonValue === "number" || buttonValue==='.' )){
+            setSecondValue(prevValue => {return trimFirstZero(prevValue + buttonValue)})
+        }
+    }
+
+    function handleEqual(){
+            setValue(math.evaluate(`${value}${operator}${secondValue}`).toString())
+            setSecondValue("0")
+    }
 
 
-    // function displayText(buttonValue){
-    //     if(buttonValue === "="){
-    //         setValue(math.evaluate(value))
-    //     } else{
-    //         setValue(prevValue => {return prevValue + buttonValue})
-    //     }
-    // }
+    
+
 
 
     
     function displayText(buttonValue){
-
-        if(operator !=="" && secondValue==="" && buttonValue === 0 || buttonValue === '.'){
-            setSecondValue("")
-        } else if(operator !=="" && typeof buttonValue === 'number' || buttonValue === '.'){
-            setSecondValue(prevValue => {return prevValue + buttonValue})
-        } else if(value === "" && buttonValue === 0 || buttonValue === '.'){
-            setValue("")
-        }else if(typeof buttonValue === 'number' || buttonValue === '.'){
-            setValue(prevValue => {return prevValue + buttonValue})
+        displayValue(buttonValue)
+        if(typeof buttonValue === "string" && buttonValue !== "."){
+            if(buttonValue === "="){
+                handleEqual()
+            }
+            else{
+                handleOperator(buttonValue)
+            }
+            
         }
-        if(buttonValue === "+" || buttonValue === "-" || buttonValue === "*" || buttonValue === "/"){
-            setOperator(buttonValue)
-        }
-        if(secondValue !=="" && buttonValue === "+" || buttonValue === "-" || buttonValue === "*" || buttonValue === "/" ){
-            setValue(math.evaluate(`${value}${operator}${secondValue}`))
-            setSecondValue("")
-        }
-        if(buttonValue === "=" && value !== "" && secondValue !== ""){
-            setValue(math.evaluate(`${value}${operator}${secondValue}`))
-            setSecondValue("")
-            setOperator("")
-        }
-
+        displaySecondValue(buttonValue)
+        
     }
 
 
   
 
     function clearState(){
-        setValue("")
+        setValue("0")
         setOperator("")
-        setSecondValue("")
+        setSecondValue("0")
     }
 
     return (<div className="main">
-    <Screen value={secondValue !=="" ? secondValue : value} />
+    <Screen value={secondValue !=="0" ? secondValue : value} />
     <div className="wrapper">
      {(keys.map((buttonValue, index) => <Button key={index} id={index} text={buttonValue} handleClick={() => {displayText(buttonValue)}} />))}
      <button className="clear" onClick={clearState}>Clear</button>
     </div>
     
     </div>)
+}
+
+/**
+ * 
+ * @param {string} string 
+ * @returns 
+ */
+function trimFirstZero(string){
+    if(string[0]==='0' && !string.includes('.')){
+        return string.substring(1)
+    }
+    return string
 }
