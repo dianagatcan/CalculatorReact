@@ -22,10 +22,10 @@ export default function App(){
     }
 
     function handleEqual(){
-            setResult(math.evaluate(`${value}${operator}${secondValue}`).toString())
-            setValue(0)
-            setSecondValue("0")
-            setOperator("")
+        setResult(math.evaluate(`${value}${operator}${secondValue}`).toString())
+        setValue("0")
+        setSecondValue("0")
+        setOperator("")
     }
 
 
