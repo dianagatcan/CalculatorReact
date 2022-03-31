@@ -1,16 +1,15 @@
 .screen {
   margin: 0 auto;
-  width: 300px;
-  height: 80px;
-  border-radius: 10px;
-  /* display: block; */
-
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: flex-end; */
+  width: 170px;
+  line-height: 50px;
+  height: 50px;
   box-sizing: border-box;
   text-align: right;
   font-weight: bold;
   color: #eeeeee;
   overflow: auto;
+}
+
+.text-display {
+  font-size: 18px;
 }

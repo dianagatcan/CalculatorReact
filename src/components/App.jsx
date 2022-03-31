@@ -4,7 +4,7 @@ import Button from "./Button/Button";
 import * as math from 'mathjs';
 
 
-//handle pressing equal twice
+//handle ++
 
 
 
@@ -19,6 +19,18 @@ export default function App(){
 
     function isOperator(){
         return operator ? true : false;
+    }
+
+/**
+ * 
+ * @param {string} string 
+ * @returns 
+ */
+    function trimFirstZero(string){
+     if(string[0]==='0' && !string.includes('.')){
+        return string.substring(1)
+    }
+        return string
     }
 
     function handleEqual(){
@@ -106,16 +118,4 @@ export default function App(){
     </div>
     
     </div>)
-}
-
-/**
- * 
- * @param {string} string 
- * @returns 
- */
-function trimFirstZero(string){
-    if(string[0]==='0' && !string.includes('.')){
-        return string.substring(1)
-    }
-    return string
 }
